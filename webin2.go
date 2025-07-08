@@ -7,12 +7,12 @@
 //  2. Asset name which is the name of the website to login.
 //     This parameter is passed by RemoteApp-Launcher.
 //     (-asset=<name>)
-//  3. User ID to login to the website. This parameter
+//  3. Account ID to login to the website. This parameter
 //     is passed by RemoteApp-Launcher.
-//     (-user=<username>)
+//     (-account=<account>)
 //  4. Password to login to the website. This parameter
 //     is passed by RemoteApp-Launcher.
-//     (-pwd=<password>)
+//     (-password=<password>)
 package main
 
 import (
