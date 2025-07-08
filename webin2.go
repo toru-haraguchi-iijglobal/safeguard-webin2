@@ -21,20 +21,21 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
-
-	"github.com/chromedp/chromedp"
 )
 
 var jsonl_filename string
 var asset string
-var user string
+var account string
 var password string
 
 func init_args() bool {
 	flag.StringVar(&jsonl_filename, "jsonl", "", "Specify the configuration JSON Lines file")
 	flag.StringVar(&asset, "asset", "", "Specify the asset")
-	flag.StringVar(&user, "user", "", "Specify the user")
-	flag.StringVar(&password, "pwd", "", "Specify the password")
+	flag.StringVar(&account, "account", "", "Specify the user")
+	flag.StringVar(&password, "password", "", "Specify the password")
+	flag.Parse()
+
+	log.Printf("args: -jsonl=%s -asset=%s -account=%s -password=%s", jsonl_filename, asset, account, password)
 
 	return true
 }
@@ -46,33 +47,27 @@ func main() {
 		log.Fatal(err)
 	}
 	exe_path = filepath.Dir(exe_path)
-	log_filename := exe_path + "\\webin_" + strconv.Itoa(os.Getpid()) + ".log"
+	log_filename := exe_path + "\\webin2_" + strconv.Itoa(os.Getpid()) + ".log"
 	logfile, err := os.OpenFile(log_filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer logfile.Close()
 	log.SetOutput(logfile)
+
 	// Process runtime arguments
 	init_args()
-	// Open JSONL file
-	// TODO: Load the JSONL file and parse it into a variable of type JsonLine
-	var json_line JsonLine = search_jsonlines(jsonl_filename)
 
 	// Search the Asset passed from RemoteApp-Launcher
+	var json_line JsonLine = search_jsonlines(asset, jsonl_filename)
+
 	// If match
-	// prepare a chromedp action array
-	var actions []chromedp.Action = build_actions(json_line)
-	if len(actions) > 0 {
-		log.Printf("%d actions found for asset: %s", len(actions), asset)
-	} else {
-		// else log error and exit.
-		log.Printf("%d actions found for asset: %s", len(actions), asset)
-	}
 	// run chromedp
-	logfile.Close()
-	// if chromedp runs correctly, remove the log file.
-	if run(actions) {
-		os.Remove(log_filename)
+	if run(json_line) {
+		// if chromedp runs correctly, remove the log file.
+		// os.Remove(log_filename)
+
 	}
+
+	logfile.Close()
 }
