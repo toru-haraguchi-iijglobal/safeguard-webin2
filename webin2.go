@@ -61,13 +61,17 @@ func main() {
 	// Search the Asset passed from RemoteApp-Launcher
 	var json_line JsonLine = search_jsonlines(asset, jsonl_filename)
 
-	// If match
+	if json_line.Asset == "" {
+		log.Printf("Asset \"%s\" not found in \"%s\"", asset, jsonl_filename)
+		logfile.Close()
+		return
+	}
+
 	// run chromedp
 	if run(json_line) {
 		// if chromedp runs correctly, remove the log file.
-		// os.Remove(log_filename)
-
+		logfile.Close()
+		os.Remove(log_filename)
 	}
 
-	logfile.Close()
 }

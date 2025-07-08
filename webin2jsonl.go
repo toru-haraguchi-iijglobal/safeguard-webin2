@@ -26,7 +26,7 @@ func search_jsonlines(asset string, jsonl_filename string) JsonLine {
 	// Open JSON Lines file
 	jsonlfile, err := os.Open(jsonl_filename)
 	if err != nil {
-		log.Fatalln("'" + jsonl_filename + "' file could not be opened.")
+		log.Fatalf("File \"%s\" could not be opened.", jsonl_filename)
 	}
 	defer jsonlfile.Close()
 	decoder := json.NewDecoder(jsonlfile)
@@ -40,15 +40,13 @@ func search_jsonlines(asset string, jsonl_filename string) JsonLine {
 				log.Printf("Asset \"%s\" not found", asset)
 				return JsonLine{}
 			} else {
-				log.Println("Last correct asset: " + json_line.Asset)
+				log.Println("JSON Line contains error. Last correct asset: " + json_line.Asset)
 				log.Fatal(err)
 			}
-		} else {
-			if json_line.Asset == asset {
-				log.Printf("Asset \"%s\" found", asset)
-				// If match, return the JsonLine
-				return json_line
-			}
+		} else if json_line.Asset == asset {
+			log.Printf("Asset \"%s\" found", asset)
+			// If match, return the JsonLine
+			return json_line
 		}
 	}
 
