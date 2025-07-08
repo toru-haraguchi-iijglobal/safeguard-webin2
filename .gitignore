@@ -1,6 +1,6 @@
 *.json
 *.jsonl
 *.log
-!sample_webin2.json
+!sample_webin2.jsonl
 *.exe
 .vscode/launch.json
