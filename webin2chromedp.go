@@ -10,8 +10,8 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
-func run(json_line Definition) bool {
-	log.Printf("Running chromedp with %d actions...", len(json_line.Actions))
+func run(definition Definition) bool {
+	log.Printf("Running chromedp with %d actions...", len(definition.Actions))
 
 	// Setting up browser options
 	opts := append(
@@ -23,17 +23,17 @@ func run(json_line Definition) bool {
 		chromedp.Flag("disable-infobars", true),
 		chromedp.Flag("window-size", "1280,800"),
 	)
-	if json_line.UseEdge {
+	if definition.UseEdge {
 		opts = append(opts,
 			chromedp.ExecPath("C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"),
 		)
 	}
-	if json_line.Secret {
+	if definition.Secret {
 		opts = append(opts,
 			chromedp.Flag("incognito", true),
 		)
 	}
-	if !json_line.CertValidation {
+	if !definition.CertValidation {
 		opts = append(opts,
 			chromedp.Flag("ignore-certificate-errors", true),
 		)
@@ -45,7 +45,7 @@ func run(json_line Definition) bool {
 
 	// Build actions based on the JSON line
 	actions := []chromedp.Action{}
-	for i, action := range json_line.Actions {
+	for i, action := range definition.Actions {
 		log.Printf("%d %s %s %d", i,
 			action.Type,
 			action.Target,
