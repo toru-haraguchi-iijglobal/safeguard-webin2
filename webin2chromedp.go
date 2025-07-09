@@ -10,7 +10,7 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
-func run(json_line JsonLine) bool {
+func run(json_line Definition) bool {
 	log.Printf("Running chromedp with %d actions...", len(json_line.Actions))
 
 	// Setting up browser options

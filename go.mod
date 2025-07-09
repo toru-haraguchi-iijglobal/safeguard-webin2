@@ -4,7 +4,10 @@ go 1.24
 
 toolchain go1.24.4
 
-require github.com/chromedp/chromedp v0.13.7
+require (
+	github.com/chromedp/chromedp v0.13.7
+	gopkg.in/yaml.v2 v2.4.0
+)
 
 require (
 	github.com/chromedp/cdproto v0.0.0-20250706212322-41fb261d0659 // indirect

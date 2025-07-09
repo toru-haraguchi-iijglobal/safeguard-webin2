@@ -1,0 +1,89 @@
+asset: PaloAltoNetworksHUB
+use_edge: false
+secret: true
+cert_validation: true
+actions:
+  - type: navigate
+    target: https://apps.paloaltonetworks.com/hub
+  - type: account
+    target: input[name="identifier"]
+  - type: click
+    target: input.button.button-primary
+  - type: password
+    target: input[name="credentials.passcode"]
+  - type: click
+    target: input.button.button-primary
+---
+asset: CortexXDR
+use_edge: false
+secret: true
+cert_validation: true
+actions:
+  - type: navigate
+    target: https://cortex-gateway.paloaltonetworks.com/accounts
+  - type: account
+    target: input[name="identifier"]
+  - type: click
+    target: input.button.button-primary
+  - type: password
+    target: input[name="credentials.passcode"]
+  - type: click
+    target: input.button.button-primary
+---
+asset: CATOSolutionsLab
+use_edge: false
+secret: true
+cert_validation: true
+actions:
+  - type: navigate
+    target: https://sol-lab.auth.catonetworks.com
+  - type: account
+    target: input#username
+  - type: password
+    target: input#password
+  - type: click
+    target: input.btn-submit
+---
+asset: NetskopeSolutionsLab
+use_edge: false
+secret: true
+cert_validation: true
+actions:
+  - type: navigate
+    target: https://sol-lab.goskope.com
+  - type: account
+    target: input#username
+  - type: password
+    target: input#password
+  - type: click
+    target: button#btn-sign-in
+---
+asset: ZscalerZIASolutionsLab
+use_edge: false
+secret: true
+cert_validation: true
+actions:
+  - type: navigate
+    target: https://admin.zscalerthree.net
+  - type: account
+    target: input#login-panel-input-email
+  - type: click
+    target: span#login-panel-next-button
+  - type: password
+    target: input#login-panel-input-password
+  - type: click
+    target: span#login-panel-signin-button
+---
+asset: ZscalerZPASolutionsLab
+use_edge: false
+secret: true
+cert_validation: true
+actions:
+  - type: navigate
+    target: https://admin.private.zscaler.com
+  - type: account
+    target: input#username
+  - type: password
+    target: input#password
+  - type: click
+    target: button#signinSubmit

@@ -24,18 +24,21 @@ import (
 )
 
 var jsonl_filename string
+var yaml_filename string
 var asset string
 var account string
 var password string
 
 func init_args() bool {
 	flag.StringVar(&jsonl_filename, "jsonl", "", "Specify the configuration JSON Lines file")
+	flag.StringVar(&yaml_filename, "yaml", "", "Specify the configuration YAML file")
 	flag.StringVar(&asset, "asset", "", "Specify the asset")
 	flag.StringVar(&account, "account", "", "Specify the user")
 	flag.StringVar(&password, "password", "", "Specify the password")
 	flag.Parse()
 
-	log.Printf("args: -jsonl=%s -asset=%s -account=%s -password=%s", jsonl_filename, asset, account, password)
+	log.Printf("args: -jsonl=%s -yaml=%s -asset=%s -account=%s -password=%s",
+		jsonl_filename, yaml_filename, asset, account, password)
 
 	return true
 }
@@ -58,17 +61,28 @@ func main() {
 	// Process runtime arguments
 	init_args()
 
-	// Search the Asset passed from RemoteApp-Launcher
-	var json_line JsonLine = search_jsonlines(asset, jsonl_filename)
+	if jsonl_filename != "" && yaml_filename != "" {
+		log.Printf("You can not specify both -jsonl and -yaml at a same time.")
+		return
+	}
 
-	if json_line.Asset == "" {
-		log.Printf("Asset \"%s\" not found in \"%s\"", asset, jsonl_filename)
+	var definition Definition
+	if jsonl_filename != "" {
+		// Search the Asset passed from RemoteApp-Launcher
+		definition = search_jsonlines(asset, jsonl_filename)
+	}
+	if yaml_filename != "" {
+		definition = search_yaml(asset, yaml_filename)
+	}
+
+	if definition.Asset == "" {
+		log.Printf("Asset \"%s\" not found in \"%s%s\"", asset, jsonl_filename, yaml_filename)
 		logfile.Close()
 		return
 	}
 
 	// run chromedp
-	if run(json_line) {
+	if run(definition) {
 		// if chromedp runs correctly, remove the log file.
 		logfile.Close()
 		os.Remove(log_filename)
