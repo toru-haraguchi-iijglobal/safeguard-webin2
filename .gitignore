@@ -1,7 +1,10 @@
 *.json
 *.jsonl
+*.yaml
+*.yml
 *.log
 !sample_webin2.jsonl
+!sample_webin2.yaml
 *.exe
 .vscode/launch.json
 !.vscode/sample_launch.json
