@@ -1,4 +1,4 @@
-module safeguard-webin2
+module webin2
 
 go 1.24
 
