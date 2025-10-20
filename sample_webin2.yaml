@@ -92,3 +92,21 @@ actions:
     target: input#password
   - type: click
     target: button#signinSubmit
+---
+asset: AWSConsole
+use_edge: false
+secret: true
+cert_validation: true
+actions:
+  - type: navigate
+    target: htthttps://console.aws.amazon.com
+  - type: click
+    target: button#root_account_signin
+  - type: account
+    target: input#resolving_input
+  - type: click
+    target: button#next_button
+  - type: password
+    target: input#password
+  - type: click
+    target: button#signin_button
