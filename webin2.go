@@ -37,8 +37,7 @@ func init_args() bool {
 	flag.StringVar(&password, "password", "", "Specify the password")
 	flag.Parse()
 
-	log.Printf("args: -jsonl=%s -yaml=%s -asset=%s -account=%s -password=%s",
-		jsonl_filename, yaml_filename, asset, account, password)
+	LogArgs(jsonl_filename, yaml_filename, asset, account)
 
 	return true
 }
@@ -50,19 +49,24 @@ func main() {
 		log.Fatal(err)
 	}
 	exe_path = filepath.Dir(exe_path)
-	log_filename := exe_path + "\\webin2_" + strconv.Itoa(os.Getpid()) + ".log"
+	pid := os.Getpid()
+	log_filename := exe_path + "\\webin2_" + strconv.Itoa(pid) + ".log"
 	logfile, err := os.OpenFile(log_filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer logfile.Close()
-	log.SetOutput(logfile)
+
+	// Initialize structured logger
+	InitLogger(logfile)
+	LogStartup(pid, log_filename)
 
 	// Process runtime arguments
 	init_args()
 
 	if jsonl_filename != "" && yaml_filename != "" {
-		log.Printf("You can not specify both -jsonl and -yaml at a same time.")
+		Error("You can not specify both -jsonl and -yaml at a same time")
+		LogShutdown(false)
 		return
 	}
 
@@ -76,16 +80,20 @@ func main() {
 	}
 
 	if definition.Asset == "" {
-		log.Printf("Asset \"%s\" not found in \"%s%s\"", asset, jsonl_filename, yaml_filename)
+		Error("Asset \"%s\" not found in \"%s%s\"", asset, jsonl_filename, yaml_filename)
+		LogShutdown(false)
 		logfile.Close()
 		return
 	}
 
 	// run chromedp
-	if run(definition) {
+	success := run(definition)
+	if success {
 		// if chromedp runs correctly, remove the log file.
+		LogShutdown(true)
 		logfile.Close()
 		os.Remove(log_filename)
+	} else {
+		LogShutdown(false)
 	}
-
 }
