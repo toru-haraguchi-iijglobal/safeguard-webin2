@@ -11,7 +11,7 @@ import (
 
 func run(definition Definition) bool {
 	LogChromedpStart(len(definition.Actions))
-	LogBrowserConfig(definition.UseEdge, definition.Secret, definition.CertValidation)
+	LogBrowserConfig(definition.UseEdge, definition.Secret, definition.CertValidation, definition.Lang)
 
 	// Setting up browser options
 	opts := append(

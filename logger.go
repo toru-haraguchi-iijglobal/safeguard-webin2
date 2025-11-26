@@ -154,11 +154,12 @@ func LogFileOperation(operation, filename string) {
 }
 
 // LogBrowserConfig logs browser configuration
-func LogBrowserConfig(useEdge, secret, certValidation bool) {
+func LogBrowserConfig(useEdge, secret, certValidation bool, lang string) {
 	Info("Browser configuration:")
 	Info("  - Use Edge: %t", useEdge)
 	Info("  - Secret mode: %t", secret)
 	Info("  - Certificate validation: %t", certValidation)
+	Info("  - lang: %s", lang)
 }
 
 // LogChromedpStart logs the start of chromedp execution
