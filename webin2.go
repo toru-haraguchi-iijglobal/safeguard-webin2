@@ -1,6 +1,6 @@
 // This program is a Website auto login program that work with
 // RemoteApp-Launcher and One Identity Safeguard.
-// It takes 4 parameters, those are:
+// It takes 5 parameters, those are:
 //  1. JSON Lines (jsonl) filename which contains login actions
 //     to each particular websites.
 //     (-jsonl=<filename>)
@@ -13,6 +13,9 @@
 //  4. Password to login to the website. This parameter
 //     is passed by RemoteApp-Launcher.
 //     (-password=<password>)
+//  5. Browser language to use for the browser (e.g. "en", "ja"). This parameter
+//     overrides the `lang` value set inside the definition file when provided.
+//     (-lang=<language>)
 package main
 
 import (
@@ -28,6 +31,7 @@ var yaml_filename string
 var asset string
 var account string
 var password string
+var lang string
 
 func init_args() bool {
 	flag.StringVar(&jsonl_filename, "jsonl", "", "Specify the configuration JSON Lines file")
@@ -35,9 +39,10 @@ func init_args() bool {
 	flag.StringVar(&asset, "asset", "", "Specify the asset")
 	flag.StringVar(&account, "account", "", "Specify the user")
 	flag.StringVar(&password, "password", "", "Specify the password")
+	flag.StringVar(&lang, "lang", "", "Specify browser language (overrides definition.lang)")
 	flag.Parse()
 
-	LogArgs(jsonl_filename, yaml_filename, asset, account)
+	LogArgs(jsonl_filename, yaml_filename, asset, account, lang)
 
 	return true
 }
@@ -84,6 +89,12 @@ func main() {
 		LogShutdown(false)
 		logfile.Close()
 		return
+	}
+
+	// If user supplied -lang override the Definition lang from file
+	if lang != "" {
+		Debug("Overriding definition language with CLI lang: %s", lang)
+		definition.Lang = lang
 	}
 
 	// run chromedp

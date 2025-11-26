@@ -113,12 +113,13 @@ func LogShutdown(success bool) {
 }
 
 // LogArgs logs the command line arguments
-func LogArgs(jsonl, yaml, asset, account string) {
+func LogArgs(jsonl, yaml, asset, account, lang string) {
 	Info("Command line arguments:")
 	Info("  - jsonl: %s", jsonl)
 	Info("  - yaml: %s", yaml)
 	Info("  - asset: %s", asset)
 	Info("  - account: %s", account)
+	Info("  - lang: %s", lang)
 	Info("  - password: [REDACTED]")
 }
 
