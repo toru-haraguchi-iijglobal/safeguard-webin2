@@ -2,6 +2,7 @@ package main
 
 type Definition struct {
 	Asset          string   `json:"asset" yaml:"asset"`                     // -asset=[asset name of SPP]
+	Lang           string   `json:"lang" yaml:"lang"`                       // Browser language
 	UseEdge        bool     `json:"use_edge" yaml:"use_edge"`               // Use MS Edge instead of Google Chrome
 	Secret         bool     `json:"secret" yaml:"secret"`                   // Open with Secret Window
 	CertValidation bool     `json:"cert_validation" yaml:"cert_validation"` // Do or Don't Cert Validation

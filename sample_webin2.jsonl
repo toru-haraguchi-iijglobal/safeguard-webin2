@@ -1,5 +1,6 @@
 {
     "asset": "PaloAltoNetworksHUB",
+    "lang": "ja",
     "use_edge": false,
     "secret": true,
     "cert_validation": true,

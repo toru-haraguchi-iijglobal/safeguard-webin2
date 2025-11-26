@@ -23,6 +23,10 @@ func run(definition Definition) bool {
 		chromedp.Flag("disable-infobars", true),
 		chromedp.Flag("window-size", "1280,800"),
 	)
+	if definition.Lang != "" {
+		opts = append(opts, chromedp.Flag("lang", definition.Lang))
+		Debug("Browser language set to: %s", definition.Lang)
+	}
 	if definition.UseEdge {
 		opts = append(opts,
 			chromedp.ExecPath("C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"),

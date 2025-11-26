@@ -1,5 +1,6 @@
 # This file is part of the Webin2 project.
 asset: PaloAltoNetworksHUB
+lang: en
 use_edge: false
 secret: true
 cert_validation: true
