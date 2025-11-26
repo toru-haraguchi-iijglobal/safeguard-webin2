@@ -11,7 +11,8 @@
                 "-jsonl=sample_webin2.jsonl",
                 "-asset=PaloAltoNetworksHUB",
                 "-account=hoge",
-                "-password=fuga"
+                "-password=fuga",
+                "-lang=ja"
             ]
         }
     ]
